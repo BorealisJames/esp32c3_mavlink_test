@@ -66,3 +66,27 @@ The MavESP8266 handles its own set of parameters and commands. Look at the [PARA
 ### HTTP Protocol
 
 There are some preliminary URLs that can be used for checking the WiFi Bridge status as well as updating firmware and changing parameters. [You can find it here.](HTTP.md)
+
+### ToDos
+
+1) Investigate https://github.com/DroneBridge/ESP32 
+  -  Connect to local wifi network 
+  -  Works on ESP32-C3 and ESP32-S3 (bonus)
+  -  Reliable on QGC setup
+  -  Smooth, reliable, responsive and no lag (even during flights)
+  -  If everything above checks out, then ignore the things below. If any of them doesn't checkout go below
+2) Investigate mavlink messages into QGC
+  - KakutehH7 takes a long time to boot and send mavlink messages into QGC to indicate its ready. 
+  - Investigate any flag messages before the ready flag is sent to QGC (if any)
+  - If there is any flag messages that is sent before the ready flag is sent, show them in the /getstatus page
+3) Refactor keywords to ESP32 instead of ESP8266
+  - Function names and variables 
+4) If there is any legacy ESP8266 specific variables / functions remove them
+5) The code architecture is abit too convulated, esp8266 class, esp8266 component & vehicle (?) Might need 2 refactor them
+6) Decouple USB UART debugging and Mav link UART
+7) Print out CPU load in get status page 
+  - On the /getstatus page there is `RAM Left` indicator, if possible indicate %CPU usage
+  - %CPU usage will only be possible if is some sort of task scheduler inside the code.  
+  - If there is no task scheduler, %CPU usage will always be 100% (not sleeping or waiting) 
+  - At first glance in the code, there doesn't seem to be any task scheduling activities.
+  - However the WIFI/HTTPD stack might be using them
